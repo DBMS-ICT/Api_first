@@ -38,7 +38,7 @@ class healthController extends Controller
     }
     public function store(Request $request)
     {
-
+return "ttrytr";
         $validator = Validator::make(
             $request->all(),
             [
