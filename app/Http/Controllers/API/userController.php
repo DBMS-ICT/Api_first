@@ -23,10 +23,26 @@ class userController extends Controller
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json(['message' => 'Invalid credentials'], 401);
         } else {
-            $token = $user->createToken('token-name')->plainTextToken;
+            $token = $user->createToken('tokenAuth')->plainTextToken;
 
             Auth::attempt(['email' => $request->email, 'password' => $request->password]);
-            return response()->json(['message' => 'Login Successful'], 200);
+            return response()->json(['message' => 'Login Successful', 'token' => $token], 200);
         }
+    }
+    public function getUser(Request $request)
+    {
+        if ($request->user()) {
+            return $request->user()->id;
+        } else {
+            return "error";
+        }
+    }
+
+    public function logout(Request $request)
+    {
+
+        $request->user()->currentAccessToken()->delete();
+
+        return response()->json(['message' => 'Logged out successfully']);
     }
 }

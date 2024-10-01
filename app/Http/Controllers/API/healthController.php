@@ -39,11 +39,6 @@ class healthController extends Controller
     public function store(Request $request)
     {
 
-
-        $user_id = '0';
-        if (Auth::check()) {
-            $user_id =  Auth::user()->id;
-        }
         $validator = Validator::make(
             $request->all(),
             [
@@ -86,7 +81,7 @@ class healthController extends Controller
             $heath->physical_ability_detail = $request->physical_ability_detail;
             $heath->glasses = $request->glasses == true ? '1' : '0';
             $heath->hear = $request->hear == true ? '1' : '0';
-            $heath->user_id = $user_id;
+            $heath->user_id = $request->user()->id;
             if ($request->hasFile('document_health')) {
 
 
