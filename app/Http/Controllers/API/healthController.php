@@ -40,28 +40,20 @@ class healthController extends Controller
     {
 
 
-
         $user_id = '0';
         if (Auth::check()) {
-            Auth::user()->id;
+            $user_id =  Auth::user()->id;
         }
         $validator = Validator::make(
             $request->all(),
             [
-                'person_code' => 'required|unique:healths,person_code',
+                'employee_id' => 'required|unique:healths,employee_id',
                 'boold_group' => 'required',
                 'cm' => 'required',
                 'document_health' => 'required|file|mimes:pdf,jpeg,jpg,png,pdf|max:2048'
             ]
         );
-        // $request->validate(
-        //         [
-        //             'person_code' => 'required|unique:healths,person_code',
-        //             'boold_group' => 'required',
-        //             'cm' => 'required',
-        //             'document_health' => 'required|file|mimes:pdf,jpeg,jpg,png,pdf|max:2048'
-        //         ]
-        //     );
+
         if ($validator->fails()) {
             return response()->json($validator->errors());
         }
@@ -69,7 +61,7 @@ class healthController extends Controller
         try {
             $heath = new health;
 
-            $heath->person_code = $request->person_code;
+            $heath->employee_id = $request->employee_id;
             $heath->boold_group = $request->boold_group;
             $heath->Heart_disease = $request->Heart_disease == true ? '1' : '0';
 
@@ -137,5 +129,29 @@ class healthController extends Controller
                 'message' => 'Not Found'
             ], Response::HTTP_NOT_FOUND);
         }
+    }
+
+    public function softDelete($id)
+    {
+        $health = Health::find($id);
+
+        if ($health) {
+            $health->delete();
+            return response()->json(['message' => 'deleted'], 200);
+        }
+
+        return response()->json(['message' => 'not found'], 404);
+    }
+
+    public function restore_softDelete($id)
+    {
+        $health = Health::withTrashed()->find($id);
+
+        if ($health) {
+            $health->restore();
+            return response()->json(['message' => 'restored'], 200);
+        }
+
+        return response()->json(['message' => 'not found'], 404);
     }
 }

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('healths', function (Blueprint $table) {
             $table->id();
-            $table->string('person_code')->unique();
+            $table->string('employee_id')->unique();
             $table->string('boold_group');
             $table->tinyInteger('Heart_disease')->default(0)->comment('0 ,no , 1,yes');
             $table->tinyInteger('Blood_pressure')->default(0)->comment('0 ,no , 1,yes');
@@ -35,8 +35,8 @@ return new class extends Migration
             $table->tinyInteger('glasses')->default(0)->comment('0 ,no , 1,yes');
             $table->tinyInteger('hear')->default(0)->comment('0 ,no , 1,yes');
             $table->string('document_health');
-
-            $table->Integer('user_id');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
