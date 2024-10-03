@@ -86,7 +86,7 @@ class healthController extends Controller
 
 
                 $file = $request->file('document_health');
-                $newName = 'Health_' . $request->person_code . '.' . $file->getClientOriginalExtension();
+                $newName = 'Health_' . $request->employee_id . '.' . $file->getClientOriginalExtension();
 
                 $file->move(public_path('upload/Health_document'), $newName);
 

@@ -52,4 +52,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(health::class);
     }
+
+    public function intelligence()
+    {
+        return $this->hasMany(intelligence::class);
+    }
 }

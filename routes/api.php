@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\healthController;
+use App\Http\Controllers\API\intelligenceController;
 use App\Http\Controllers\API\userController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,6 +16,14 @@ route::middleware('auth:sanctum')->group(function () {
     // User Auth
     Route::get('getUser', [userController::class, 'getUser']);
     Route::get('logout', [userController::class, 'logout']);
+
+    //intelligence
+    route::post('intelligence/insert', [intelligenceController::class, 'store_intelligence'])->name('store.intelligence');
+    route::get('intelligence/search/{id}', [intelligenceController::class, 'search_intelligence'])->name('search.intelligence');
+
+
+    //family
+    route::post('family/insert', [intelligenceController::class, 'store_family'])->name('store.family');
 });
 
 
