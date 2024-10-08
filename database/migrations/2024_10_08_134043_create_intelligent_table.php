@@ -11,19 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('intelligences', function (Blueprint $table) {
+        Schema::create('intelligence', function (Blueprint $table) {
             $table->id();
             $table->integer('employee_id');
-            $table->string('supported_by');
-            $table->enum('Former_member', ['بەڵێ', 'نەخێر تازە پەیوەندیکردوە']);
-            $table->string('party');
-            $table->date('Date_connection');
+            $table->json('supported_by');
+            $table->json('Former_member');
+            $table->foreignId('party_id')->constrained()->onDelete('cascade');
+            $table->date('Date_connection')->nullable();
             $table->tinyInteger('Travel')->default(0)->comment('0=no, 1=yes');
-            $table->string('Reason_travelling')->nullable();
+            $table->json('Reason_travelling')->nullable();
             $table->tinyInteger('another_passport')->default(0)->comment('0=no, 1=yes');
-            $table->string('country_passport')->nullable();
+            $table->json('country_passport')->nullable();
             $table->string('attach');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->json('family');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -34,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('intelligences');
+        Schema::dropIfExists('intelligence');
     }
 };

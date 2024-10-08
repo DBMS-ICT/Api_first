@@ -13,25 +13,26 @@ return new class extends Migration
     {
         Schema::create('healths', function (Blueprint $table) {
             $table->id();
-            $table->string('employee_id')->unique();
+            $table->integer('employee_id')->unique();
             $table->string('boold_group');
             $table->tinyInteger('Heart_disease')->default(0)->comment('0 ,no , 1,yes');
             $table->tinyInteger('Blood_pressure')->default(0)->comment('0 ,no , 1,yes');
             $table->tinyInteger('suger')->default(0)->comment('0 ,no , 1,yes');
             $table->double('cm');
-            $table->string('bones_joints')->default(0)->comment('0 ,no , 1,yes');
+            $table->double('weight');
+            $table->tinyInteger('bones_joints')->default(0)->comment('0 ,no , 1,yes');
             $table->tinyInteger('Kidney_disease')->default(0)->comment('0 ,no , 1,yes');
             $table->tinyInteger('Liver_disease')->default(0)->comment('0 ,no , 1,yes');
             $table->tinyInteger('Mental_illness')->default(0)->comment('0 ,no , 1,yes');
-            $table->string('Note1')->nullable();
-            $table->string('medicine');
-            $table->string('Food');
-            $table->string('etc');
-            $table->string('detail')->nullable();
-            $table->string('medicine_list')->nullable();
-            $table->string('surgery_injury');
+            $table->json('Note1')->nullable();
+            $table->tinyInteger('medicine')->default(0)->comment('0 ,no , 1,yes');
+            $table->tinyInteger('Food')->default(0)->comment('0 ,no , 1,yes');
+            $table->tinyInteger('etc')->default(0)->comment('0 ,no , 1,yes');
+            $table->json('detail')->nullable();
+            $table->json('medicine_list')->nullable();
+            $table->tinyInteger('surgery_injury')->default(0)->comment('0 ,no , 1,yes');
             $table->tinyInteger('physical_ability')->default(1)->comment('0 ,no , 1,yes');
-            $table->string('physical_ability_detail')->nullable();
+            $table->json('physical_ability_detail')->nullable();
             $table->tinyInteger('glasses')->default(0)->comment('0 ,no , 1,yes');
             $table->tinyInteger('hear')->default(0)->comment('0 ,no , 1,yes');
             $table->string('document_health');

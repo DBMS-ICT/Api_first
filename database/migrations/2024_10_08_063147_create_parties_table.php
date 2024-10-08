@@ -11,13 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('families', function (Blueprint $table) {
+        Schema::create('parties', function (Blueprint $table) {
             $table->id();
-            $table->integer('employee_id')->constrained()->onDelete('cascade');
-            $table->string('name');
-            $table->string('option');
-            $table->string('occupation')->nullable();
-            $table->string('party')->nullable();
+            $table->json('party');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -27,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('families');
+        Schema::dropIfExists('parties');
     }
 };
