@@ -14,25 +14,109 @@ use Illuminate\Support\Facades\File;
 class intelligenceController extends Controller
 {
 
+    // public function store_intelligence(Request $request)
+    // {
+
+    //     try {
+    //         $validatedData_family = $request->validate([
+    //             'family_name' => 'required',
+    //             'family_option' => 'required',
+    //             'family_occupation' => 'required',
+    //             'family_party' => 'required',
+    //         ]);
+
+    //         $family = json_encode([app()->getLocale() => [
+    //             'name' => $validatedData_family['family_name'],
+    //             'option' => $validatedData_family['family_option'],
+    //             'occupation' => $validatedData_family['family_occupation'],
+    //             'party' => $validatedData_family['family_party'],
+    //         ]]);
+
+    //         $validatedData = $request->validate([
+    //             'employee_id' => 'required',
+    //             'supported_by' => 'required',
+    //             'Former_member' => 'required',
+    //             'party' => 'required',
+    //             'Date_connection' => 'required|date',
+    //             'Travel' => 'required|boolean',
+    //             'Reason_travelling' => 'nullable|string',
+    //             'another_passport' => 'required|boolean',
+    //             'country_passport' => 'nullable|string',
+    //             'attach' => 'required|file',
+    //         ]);
+
+    //         $supported_by = json_encode([app()->getLocale() => [
+    //             'supported_by' => $validatedData['supported_by'],
+    //         ]]);
+    //         $Former_member = json_encode([app()->getLocale() => [
+    //             'Former_member' => $validatedData['Former_member'],
+    //         ]]);
+    //         $Reason_travelling = json_encode([app()->getLocale() => [
+    //             'Reason_travelling' => $validatedData['Reason_travelling'],
+    //         ]]);
+    //         $country_passport = json_encode([app()->getLocale() => [
+    //             'country_passport' => $validatedData['country_passport'],
+    //         ]]);
+
+    //         $intelligence = new intelligence();
+    //         $intelligence->employee_id = $validatedData['employee_id'];
+    //         $intelligence->supported_by = $supported_by;
+    //         $intelligence->Former_member = $Former_member;
+    //         $intelligence->party_id = $validatedData['party'];
+    //         $intelligence->Date_connection = $validatedData['Date_connection'];
+    //         $intelligence->Travel = $validatedData['Travel'];
+    //         $intelligence->Reason_travelling = $Reason_travelling;
+    //         $intelligence->another_passport = $validatedData['another_passport'];
+    //         $intelligence->country_passport = $country_passport;
+    //         $intelligence->family_data = $family;
+    //         $intelligence->user_id = $request->user()->id;
+
+
+    //         if ($request->hasFile('attach')) {
+    //             $file = $request->file('attach');
+    //             $newName = 'intelligence_' . $validatedData['employee_id'] . '.' . $file->getClientOriginalExtension();
+    //             $file->move(public_path('upload/intelligence/party'), $newName);
+    //             $intelligence->attach = $newName;
+    //         } else {
+    //             $intelligence->attach = 'no';
+    //         }
+
+    //         // Save intelligence entry
+    //         $intelligence->save();
+
+    //         return response()->json([
+    //             'status' => Response::HTTP_OK,
+    //             'message' => 'Intelligence members added successfully!'
+    //         ], Response::HTTP_OK);
+    //     } catch (Exception $e) {
+    //         Log::error('Error Store Data: ' . $e->getMessage());
+    //         return response()->json([
+    //             'status' => Response::HTTP_INTERNAL_SERVER_ERROR,
+    //             'message' => 'Failed to store data.'
+    //         ], Response::HTTP_INTERNAL_SERVER_ERROR);
+    //     }
+    // }
+
     public function store_intelligence(Request $request)
     {
-
         try {
-
-            $validatedData_family = $request->validate([
+            // Validate family data
+            $validatedDataFamily = $request->validate([
                 'family_name' => 'required',
                 'family_option' => 'required',
                 'family_occupation' => 'required',
                 'family_party' => 'required',
             ]);
 
+            // Prepare family data
             $family = json_encode([app()->getLocale() => [
-                'name' => $validatedData_family['family_name'],
-                'option' => $validatedData_family['family_option'],
-                'occupation' => $validatedData_family['family_occupation'],
-                'party' => $validatedData_family['family_party'],
+                'family_name' => $validatedDataFamily['family_name'],
+                'family_option' => $validatedDataFamily['family_option'],
+                'family_occupation' => $validatedDataFamily['family_occupation'],
+                'family_party' => $validatedDataFamily['family_party'],
             ]]);
 
+            // Validate main intelligence data
             $validatedData = $request->validate([
                 'employee_id' => 'required',
                 'supported_by' => 'required',
@@ -46,33 +130,35 @@ class intelligenceController extends Controller
                 'attach' => 'required|file',
             ]);
 
-            $supported_by = json_encode([app()->getLocale() => [
+            // Prepare additional data as JSON
+            $supportedBy = json_encode([app()->getLocale() => [
                 'supported_by' => $validatedData['supported_by'],
             ]]);
-            $Former_member = json_encode([app()->getLocale() => [
+            $formerMember = json_encode([app()->getLocale() => [
                 'Former_member' => $validatedData['Former_member'],
             ]]);
-            $Reason_travelling = json_encode([app()->getLocale() => [
-                'Reason_travelling' => $validatedData['Reason_travelling'],
+            $reasonTravelling = json_encode([app()->getLocale() => [
+                'Reason_travelling' => $validatedData['Reason_travelling'] ?? null,
             ]]);
-            $country_passport = json_encode([app()->getLocale() => [
-                'country_passport' => $validatedData['country_passport'],
+            $countryPassport = json_encode([app()->getLocale() => [
+                'country_passport' => $validatedData['country_passport'] ?? null,
             ]]);
 
-            $intelligence = new intelligence();
+            // Create new intelligence entry
+            $intelligence = new Intelligence();
             $intelligence->employee_id = $validatedData['employee_id'];
-            $intelligence->supported_by = $supported_by;
-            $intelligence->Former_member = $Former_member;
+            $intelligence->supported_by = $supportedBy;
+            $intelligence->Former_member = $formerMember;
             $intelligence->party_id = $validatedData['party'];
             $intelligence->Date_connection = $validatedData['Date_connection'];
             $intelligence->Travel = $validatedData['Travel'];
-            $intelligence->Reason_travelling = $Reason_travelling;
+            $intelligence->Reason_travelling = $reasonTravelling;
             $intelligence->another_passport = $validatedData['another_passport'];
-            $intelligence->country_passport = $country_passport;
-            $intelligence->family = $family;
+            $intelligence->country_passport = $countryPassport;
+            $intelligence->family_data = $family;
             $intelligence->user_id = $request->user()->id;
 
-
+            // Handle file upload
             if ($request->hasFile('attach')) {
                 $file = $request->file('attach');
                 $newName = 'intelligence_' . $validatedData['employee_id'] . '.' . $file->getClientOriginalExtension();
@@ -99,34 +185,32 @@ class intelligenceController extends Controller
     }
 
 
-
-
     public function edit_intelligence($id)
     {
-        $intelligence_data = intelligence::where('employee_id', $id)->first();
+        $intelligence_data = intelligence::findOrFail($id);
         return 'View Name';
     }
 
     public function update_intelligence(Request $request, $id)
     {
         try {
-             $intelligence = Intelligence::findOrFail($id);
+            $intelligence = Intelligence::findOrFail($id);
 
-             $validatedData_family = $request->validate([
+            $validatedData_family = $request->validate([
                 'family_name' => 'required',
                 'family_option' => 'required',
                 'family_occupation' => 'required',
                 'family_party' => 'required',
             ]);
+            $family = json_decode($intelligence->family_data, true);
+            $family[app()->getLocale()] = [
+                'name' => $request->family_name,
+                'option' => $request->family_option,
+                'occupation' => $request->family_occupation,
+                'party' => $request->family_party
+            ];
 
-            $family = json_encode([app()->getLocale() => [
-                'name' => $validatedData_family['family_name'],
-                'option' => $validatedData_family['family_option'],
-                'occupation' => $validatedData_family['family_occupation'],
-                'party' => $validatedData_family['family_party'],
-            ]]);
-
-             $validatedData = $request->validate([
+            $validatedData = $request->validate([
                 'employee_id' => 'required',
                 'supported_by' => 'required',
                 'Former_member' => 'required',
@@ -161,7 +245,7 @@ class intelligenceController extends Controller
             $intelligence->Reason_travelling = $Reason_travelling;
             $intelligence->another_passport = $validatedData['another_passport'];
             $intelligence->country_passport = $country_passport;
-            $intelligence->family = $family;
+            $intelligence->family_data = $family;
             $intelligence->user_id = $request->user()->id;
 
 
@@ -193,20 +277,24 @@ class intelligenceController extends Controller
 
     public function search_intelligence($id)
     {
-
-
         try {
 
-            $intelligence_data = intelligence::findOrFail($id);
-
+            $intelligence_data = Intelligence::findOrFail($id);
+            // return all data
             return response()->json([
-                'intelligence_data' => $intelligence_data,
+                'data' => $intelligence_data
             ]);
+
+            // get family_data
+            // return response()->json([
+            //     'data' => json_decode($intelligence_data->family_data, true)['en']['name'] ?? null,
+            // ]);
+
         } catch (Exception $e) {
             Log::error('Error Store Data:' . $e->getMessage());
             return response()->json([
                 'status' => Response::HTTP_INTERNAL_SERVER_ERROR,
-                'message' => 'failed Store Data '
+                'message' => 'failed Search Data '
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }

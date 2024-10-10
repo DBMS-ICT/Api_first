@@ -23,7 +23,7 @@ class intelligence extends Model
         'country_passport',
         'attach',
         'user_id',
-        'family',
+        'family_data',
     ];
     public function user()
     {
