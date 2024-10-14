@@ -57,4 +57,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(intelligence::class);
     }
+
+   
+    public function roles()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

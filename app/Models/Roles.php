@@ -18,4 +18,9 @@ class Roles extends Model
     protected $casts = [
         'content' => 'array',
     ];
+
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
 }
