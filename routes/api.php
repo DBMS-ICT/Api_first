@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\health_intelligencesController;
 use App\Http\Controllers\API\healthController;
 use App\Http\Controllers\API\intelligenceController;
 use App\Http\Controllers\API\partyController;
@@ -13,13 +14,26 @@ use Illuminate\Support\Facades\Route;
 
 route::middleware(['auth:sanctum', 'lang'])->group(function () {
     // Health Route
-    route::get('health/all', [healthController::class, 'all']);
-    route::post('health/store', [HealthController::class, 'store'])->name('health.store');
-    route::get('health/show/{id}', [healthController::class, 'show']);
-    route::post('health/Soft-Delete/{id}', [healthController::class, 'softDelete']);
-    route::post('health/restore/{id}', [healthController::class, 'restore_softDelete']);
-    route::post('health/update/{id}', [healthController::class, 'update'])->name('health.update');
+    // route::get('health/all', [healthController::class, 'all']);
+    // route::post('health/store', [HealthController::class, 'store'])->name('health.store');
+    // route::get('health/show/{id}', [healthController::class, 'show']);
+    // route::post('health/Soft-Delete/{id}', [healthController::class, 'softDelete']);
+    // route::post('health/restore/{id}', [healthController::class, 'restore_softDelete']);
+    // route::post('health/update/{id}', [healthController::class, 'update'])->name('health.update');
 
+
+    route::get('health/all', [health_intelligencesController::class, 'all']);
+    route::post('health/store', [health_intelligencesController::class, 'health_store'])->name('health.store');
+    route::get('health/show/{id}', [health_intelligencesController::class, 'show']);
+    route::post('health/update/{id}', [health_intelligencesController::class, 'health_update'])->name('health.update');
+
+    //intelligence
+    route::post('intelligence/update/{id}', [health_intelligencesController::class, 'update_intelligence'])->name('intelligence.update');
+    route::get('intelligence/search/{id}', [health_intelligencesController::class, 'search_intelligence'])->name('intelligence.search');
+
+
+    route::post('health/Soft-Delete/{id}', [health_intelligencesController::class, 'softDelete']);
+    route::post('health/restore/{id}', [health_intelligencesController::class, 'restore_softDelete']);
 
     // User Auth
     Route::get('getUser', [userController::class, 'getUser']);
@@ -27,13 +41,8 @@ route::middleware(['auth:sanctum', 'lang'])->group(function () {
 
 
 
-    //intelligence
-    route::post('intelligence/store', [intelligenceController::class, 'store_intelligence'])->name('intelligence.store');
-    route::get('intelligence/edit/{id}', [intelligenceController::class, 'edit_intelligence'])->name('intelligence.edit');
-    route::post('intelligence/update/{id}', [intelligenceController::class, 'update_intelligence'])->name('intelligence.update');
-    route::post('intelligence/delete/{id}', [intelligenceController::class, 'delete'])->name('intelligence.delete');
-    route::post('intelligence/restore/delete/{id}', [intelligenceController::class, 'restore_softDelete'])->name('intelligence.restore_delete');
-    route::get('intelligence/search/{id}', [intelligenceController::class, 'search_intelligence'])->name('intelligence.search');
+
+
 
     //party
     route::post('party/store', [partyController::class, 'store'])->name('party.store');

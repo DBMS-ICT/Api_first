@@ -14,28 +14,30 @@ return new class extends Migration
         Schema::create('healths', function (Blueprint $table) {
             $table->id();
             $table->integer('employee_id')->unique();
-            $table->string('boold_group');
-            $table->tinyInteger('Heart_disease')->default(0)->comment('0 ,no , 1,yes');
-            $table->tinyInteger('Blood_pressure')->default(0)->comment('0 ,no , 1,yes');
-            $table->tinyInteger('suger')->default(0)->comment('0 ,no , 1,yes');
-            $table->double('cm');
-            $table->double('weight');
-            $table->tinyInteger('bones_joints')->default(0)->comment('0 ,no , 1,yes');
-            $table->tinyInteger('Kidney_disease')->default(0)->comment('0 ,no , 1,yes');
-            $table->tinyInteger('Liver_disease')->default(0)->comment('0 ,no , 1,yes');
-            $table->tinyInteger('Mental_illness')->default(0)->comment('0 ,no , 1,yes');
-            $table->json('Note1')->nullable();
-            $table->tinyInteger('medicine')->default(0)->comment('0 ,no , 1,yes');
-            $table->tinyInteger('Food')->default(0)->comment('0 ,no , 1,yes');
-            $table->tinyInteger('etc')->default(0)->comment('0 ,no , 1,yes');
-            $table->json('detail')->nullable();
-            $table->json('medicine_list')->nullable();
-            $table->tinyInteger('surgery_injury')->default(0)->comment('0 ,no , 1,yes');
-            $table->tinyInteger('physical_ability')->default(1)->comment('0 ,no , 1,yes');
-            $table->json('physical_ability_detail')->nullable();
-            $table->tinyInteger('glasses')->default(0)->comment('0 ,no , 1,yes');
-            $table->tinyInteger('hear')->default(0)->comment('0 ,no , 1,yes');
-            $table->string('document_health');
+            $table->string('boold_group');//health
+            $table->tinyInteger('Heart_disease')->default(0)->comment('0 ,no , 1,yes');//health
+            $table->tinyInteger('Blood_pressure')->default(0)->comment('0 ,no , 1,yes');//health
+            $table->tinyInteger('suger')->default(0)->comment('0 ,no , 1,yes');//health
+            $table->double('cm');//health
+            $table->double('weight');//health
+            $table->tinyInteger('bones_joints')->default(0)->comment('0 ,no , 1,yes');//health
+            $table->tinyInteger('Kidney_disease')->default(0)->comment('0 ,no , 1,yes');//health
+            $table->tinyInteger('Liver_disease')->default(0)->comment('0 ,no , 1,yes');//health
+            $table->tinyInteger('Mental_illness')->default(0)->comment('0 ,no , 1,yes');//health
+            $table->json('Note1')->nullable();//health
+            $table->tinyInteger('medicine')->default(0)->comment('0 ,no , 1,yes');//health
+            $table->tinyInteger('Food')->default(0)->comment('0 ,no , 1,yes');//health
+            $table->tinyInteger('etc')->default(0)->comment('0 ,no , 1,yes');//health
+            $table->json('detail')->nullable();//health
+            $table->json('medicine_list')->nullable();//health
+            $table->tinyInteger('surgery_injury')->default(0)->comment('0 ,no , 1,yes');//health
+            $table->tinyInteger('physical_ability')->default(1)->comment('0 ,no , 1,yes');//health
+            $table->json('physical_ability_detail')->nullable();//health
+            $table->tinyInteger('glasses')->default(0)->comment('0 ,no , 1,yes');//health
+            $table->tinyInteger('hear')->default(0)->comment('0 ,no , 1,yes');//health
+            $table->string('document_health');//health
+
+            
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->softDeletes();
             $table->timestamps();
